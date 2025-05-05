@@ -26,9 +26,54 @@ To implement MESSAGE AUTHENTICATION CODE(MAC)
 
 ## Program:
 
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+void encrypt(char message[], int shift);
+void decrypt(char message[], int shift);
+int main() {
+ char message[100];
+ int shift;
+ printf("********** MAC [ Message Authentication Code ] **********\n\n");
+ printf("Enter a message to encrypt: ");
+ fgets(message, sizeof(message), stdin);
+ printf("Enter the shift value: ");
+ scanf("%d", &shift);
+ encrypt(message, shift);
+ printf("\nEncrypted message: %s\n", message);
+ decrypt(message, shift);
+ printf("Decrypted message: %s\n", message);
+ return 0;
+}
+void encrypt(char message[], int shift) {
+ for (int i = 0; message[i] != '\0'; ++i) {
+ char ch = message[i];
+ if (islower(ch)) {
+ message[i] = ((ch - 'a' + shift) % 26) + 'a';
+ }
+ else if (isupper(ch)) {
+ message[i] = ((ch - 'A' + shift) % 26) + 'A';
+ }
+ }
+}
+void decrypt(char message[], int shift) {
+ for (int i = 0; message[i] != '\0'; ++i) {
+ char ch = message[i];
+ if (islower(ch)) {
+ message[i] = ((ch - 'a' - shift + 26) % 26) + 'a';
+ }
+ else if (isupper(ch)) {
+ message[i] = ((ch - 'A' - shift + 26) % 26) + 'A';
+ }
+ }
+}
+```
 
 
 ## Output:
+![image](https://github.com/user-attachments/assets/4b50a4e4-4a07-468e-83d8-d931e8871073)
+
 
 
 ## Result:
